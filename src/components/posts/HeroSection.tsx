@@ -1,16 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { Play, ChevronDown } from "lucide-react";
 import { GradientBorderContainer } from "@/components/common/GradientBorderContainer";
+import { SurveyModal } from "@/components/common/SurveyModal";
 import { smoothScrollTo } from "@/lib/smoothScroll";
 
 export function HeroSection() {
+    const [surveyOpen, setSurveyOpen] = useState(false);
+
     const scrollToFeatures = () => {
         smoothScrollTo("features", 1200);
     };
 
-    const scrollToContact = () => {
-        smoothScrollTo("contact", 1200);
+    const openSurvey = () => {
+        setSurveyOpen(true);
     };
 
     return (
@@ -51,7 +55,7 @@ export function HeroSection() {
                     style={{ animationDelay: "700ms" }}
                 >
                     <button
-                        onClick={scrollToContact}
+                        onClick={openSurvey}
                         className="px-10 py-4 bg-[#1A1A1A] text-white text-[17px] font-semibold rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.15)] hover:bg-[#333333] hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-all"
                     >
                         지금 시작하기
@@ -106,6 +110,9 @@ export function HeroSection() {
                     </div>
                 </GradientBorderContainer>
             </div>
+
+            {/* Survey Modal */}
+            <SurveyModal open={surveyOpen} onOpenChange={setSurveyOpen} />
         </section>
     );
 }
