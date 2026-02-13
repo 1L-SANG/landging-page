@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Play, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { GradientBorderContainer } from "@/components/common/GradientBorderContainer";
 import { SurveyModal } from "@/components/common/SurveyModal";
 import { smoothScrollTo } from "@/lib/smoothScroll";
@@ -11,10 +11,6 @@ export function HeroSection() {
 
     const scrollToFeatures = () => {
         smoothScrollTo("features", 1200);
-    };
-
-    const openSurvey = () => {
-        setSurveyOpen(true);
     };
 
     return (
@@ -50,16 +46,25 @@ export function HeroSection() {
                     스튜디오, 모델, 조명 없이. 제품 사진만 올리면 완성됩니다.
                 </p>
 
+                {/* Inline Survey (replaces CTA button when open) */}
                 <div
-                    className="flex flex-col sm:flex-row items-center gap-4 mb-8 animate-fade-up"
+                    className="w-full max-w-[500px] animate-fade-up"
                     style={{ animationDelay: "700ms" }}
                 >
-                    <button
-                        onClick={openSurvey}
-                        className="px-10 py-4 bg-[#1A1A1A] text-white text-[17px] font-semibold rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.15)] hover:bg-[#333333] hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-all"
-                    >
-                        지금 시작하기
-                    </button>
+                    <SurveyModal open={surveyOpen} onOpenChange={setSurveyOpen} />
+                </div>
+
+                {/* Secondary CTA */}
+                <div
+                    className="flex items-center gap-4 mt-6 animate-fade-up"
+                    style={{
+                        animationDelay: "700ms",
+                        opacity: surveyOpen ? 0 : 1,
+                        transform: surveyOpen ? "translateY(10px)" : "translateY(0)",
+                        transition: "all 0.35s ease",
+                        pointerEvents: surveyOpen ? "none" : "auto",
+                    }}
+                >
                     <button
                         onClick={scrollToFeatures}
                         className="flex items-center gap-2 text-[15px] text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors group"
@@ -70,8 +75,12 @@ export function HeroSection() {
                 </div>
 
                 <div
-                    className="flex items-center gap-3 text-[14px] text-[#9E9E9E] animate-fade-up"
-                    style={{ animationDelay: "900ms" }}
+                    className="flex items-center gap-3 text-[14px] text-[#9E9E9E] mt-6 animate-fade-up"
+                    style={{
+                        animationDelay: "900ms",
+                        opacity: surveyOpen ? 0 : 1,
+                        transition: "opacity 0.35s ease",
+                    }}
                 >
                     <div className="flex -space-x-2">
                         {[1, 2, 3, 4].map((i) => (
@@ -91,28 +100,18 @@ export function HeroSection() {
                 style={{ animationDelay: "1100ms" }}
             >
                 <GradientBorderContainer>
-                    <div className="relative aspect-[16/9] bg-gradient-to-br from-[#F5F5F7] to-[#E5E5E5] flex items-center justify-center group cursor-pointer overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-
-                        {/* Play Button */}
-                        <div className="relative z-10 w-16 h-16 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center shadow-xl transition-all group-hover:scale-110 group-hover:shadow-2xl">
-                            <Play
-                                size={24}
-                                className="text-[#1A1A1A] ml-1"
-                                fill="#1A1A1A"
-                            />
-                        </div>
-
-                        {/* Video duration */}
-                        <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/70 backdrop-blur-sm rounded-full text-white text-[12px] font-medium">
-                            1:30
-                        </div>
+                    <div className="relative overflow-hidden bg-black">
+                        <video
+                            src="/demo.mov"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="w-full h-auto block"
+                        />
                     </div>
                 </GradientBorderContainer>
             </div>
-
-            {/* Survey Modal */}
-            <SurveyModal open={surveyOpen} onOpenChange={setSurveyOpen} />
         </section>
     );
 }

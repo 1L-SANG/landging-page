@@ -19,17 +19,28 @@ export function GradientBorderContainer({
             style={{
                 padding: "2px",
                 borderRadius: "24px",
-                background:
-                    "conic-gradient(from 180deg, #12ADE6, #4C63FC, #DC4CFC, #FF0080, #EE00FF, #12B4E6, #12ADE6)",
+                position: "relative",
                 transition: "all 300ms ease",
-                animation: "gradientShift 8s linear infinite",
             }}
         >
+            {/* Rotating gradient background layer — filter only affects this div, not children */}
+            <div
+                style={{
+                    position: "absolute",
+                    inset: 0,
+                    borderRadius: "inherit",
+                    background:
+                        "conic-gradient(from 180deg, #12ADE6, #4C63FC, #DC4CFC, #FF0080, #EE00FF, #12B4E6, #12ADE6)",
+                    animation: "gradientShift 8s linear infinite",
+                }}
+            />
             <div
                 className={innerClassName}
                 style={{
                     borderRadius: "22px",
                     overflow: "hidden",
+                    position: "relative",
+                    zIndex: 1,
                 }}
             >
                 {children}
